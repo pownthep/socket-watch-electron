@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
     <link rel="stylesheet" href="index.css">
-  </head>
-  <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
-  </body>
+</head>
+
+<body>
+    <label for="url-input">URL: <input type="text" id="url-input"></label>
+    <button onclick="selectMedia()">Select file</button>
+    <button onclick="cyclePause()">Play/Pause</button>
+    <button onclick="cycleAudio()">Switch audio track</button>
+    <button onclick="cycleSubs()">Switch subtitle track</button>
+    <button onclick="cycleFullscreen()">Fullscreen/Minimize</button>
+
+
+    <script src="renderer.js"></script>
+</body>
+
 </html>
