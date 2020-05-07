@@ -3,20 +3,40 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Remote VLC</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-    <h1 id="time"></h1>
-    <label for="url-input">URL: <input type="text" id="url-input"></label>
-    <button onclick="selectMedia()">Select file</button>
-    <button onclick="play()">Play</button>
-    <button onclick="pause()">Pause</button>
-    <button onclick="cycleAudio()">Switch audio track</button>
-    <button onclick="cycleSubs()">Switch subtitle track</button>
-    <button onclick="cycleFullscreen()">Fullscreen/Minimize</button>
-
+    <h1 id="time">0</h1>
+    <div class="buttons">
+        <button onclick="play()"><span class="material-icons">
+        play_circle_filled
+      </span></button>
+        <button onclick="pause()"><span class="material-icons">
+        pause_circle_filled
+      </span></button>
+        <label for="seekbar">
+        <input class="slider" id="seekbar" type="range" name="" min="0" max="" value="0" onchange="seek(this.value)">
+      </label>
+        <button onclick="cycleAudio()"><span class="material-icons">
+        audiotrack
+      </span></button>
+        <button onclick="cycleSubs()"><span class="material-icons">
+        subtitles
+      </span></button>
+        <!-- <button onclick="cycleFullscreen()"><span class="material-icons">
+        fullscreen
+      </span></button> -->
+    </div>
+    <div class="url">
+        <button onclick="selectMedia()"><i class="material-icons">
+    folder_open
+    </i></button>
+        <label for="url-input"><input type="text" id="url-input" placeholder="🔗 Video link"></label>
+    </div>
+    <script src="material.js"></script>
     <script src="renderer.js"></script>
 </body>
 

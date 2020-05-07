@@ -1,10 +1,12 @@
 const PlayerController = require('media-player-controller');
 const { dialog } = require('electron').remote;
 const io = require('socket.io-client');
-const socket = io('http://localhost:3000');
+const socket = io('https://socket-watch-express.herokuapp.com');
 
 let urlInput = document.getElementById('url-input');
 let time = document.getElementById('time');
+let slider = document.getElementById('seekbar');
+let launched = false;
 
 var player = new PlayerController({
     app: 'vlc'
@@ -19,18 +21,29 @@ urlInput.addEventListener("keyup", function(event) {
     socket.emit('url input', event.target.value);
 });
 
+
 socket.on('url input', function(msg) {
     urlInput.value = msg;
-    load(urlInput.value);
+});
+
+socket.on('seek cmd', function(msg) {
+    player.seek(msg);
 });
 
 socket.on('vlc cmd', function(msg) {
+    console.log(msg);
     switch (msg) {
-        case 'cyclePause':
-            player.cyclePause();
+        case 'play':
+            player.play();
+            break;
+        case 'pause':
+            player.pause();
             break;
         case 'cycleAudio':
             player.cycleAudio();
+            break;
+        case 'load':
+            player.load(urlInput.value);
             break;
         case 'cycleSubs':
             player.cycleSubs();
@@ -50,7 +63,13 @@ function selectMedia() {
     }).then(result => {
         if (!result.canceled) {
             console.log(result);
-            load(result.filePaths[0]);
+            if (!launched) {
+                player.opts.media = result.filePaths[0];
+                launchPlayer();
+                launched = true;
+                return;
+            }
+            player.load(result.filePaths[0]);
         }
     }).catch(err => {
         console.log(err)
@@ -59,6 +78,7 @@ function selectMedia() {
 
 function load(mediaPath) {
     player.load(mediaPath);
+    socket.emit('vlc cmd', 'load');
 }
 
 function play() {
@@ -86,19 +106,30 @@ function cycleFullscreen() {
     socket.emit('vlc cmd', 'cycleFullscreen');
 }
 
-/* Path to file or link. Can be changed anytime without creating new player objects */
-player.opts.media = 'https://file-examples.com/wp-content/uploads/2017/04/file_example_MP4_480_1_5MG.mp4';
+function seek(seconds) {
+    player.seek(seconds);
+    socket.emit('seek cmd', seconds);
+}
 
-player.launch(err => {
-    if (err) {
-        console.error(err.message);
+/* Path to file or link. Can be changed anytime without creating new player objects */
+
+function launchPlayer() {
+    player.launch(err => {
+        if (err) {
+            console.error(err.message);
+        }
+    });
+}
+
+
+player.on('playback', (data) => {
+    if (data.name === 'time-pos') {
+        time.innerText = data.value;
+        slider.value = data.value;
     }
+    if (data.name === 'duration') slider.max = data.value;
 });
 
-
-function timer(data) {
-    if (data.name === 'time-pos') time.innerText = data.value;
-}
-player.on('playback', function(data) {
-    if (data.name === 'time-pos') time.innerText = data.value;
+player.on('app-exit', (code) => {
+    launched = false;
 });
