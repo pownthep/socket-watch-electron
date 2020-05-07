@@ -8,13 +8,14 @@
 </head>
 
 <body>
+    <h1 id="time"></h1>
     <label for="url-input">URL: <input type="text" id="url-input"></label>
     <button onclick="selectMedia()">Select file</button>
-    <button onclick="cyclePause()">Play/Pause</button>
+    <button onclick="play()">Play</button>
+    <button onclick="pause()">Pause</button>
     <button onclick="cycleAudio()">Switch audio track</button>
     <button onclick="cycleSubs()">Switch subtitle track</button>
     <button onclick="cycleFullscreen()">Fullscreen/Minimize</button>
-
 
     <script src="renderer.js"></script>
 </body>
