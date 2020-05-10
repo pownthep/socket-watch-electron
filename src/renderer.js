@@ -1,8 +1,8 @@
 const PlayerController = require('media-player-controller');
 const { dialog } = require('electron').remote;
 const io = require('socket.io-client');
-//const socket = io('https://socket-watch-express.herokuapp.com');
-const socket = io('http://localhost:3000');
+const socket = io('https://socket-watch-express.herokuapp.com');
+//const socket = io('http://localhost:3000');
 const humanizeDuration = require('humanize-duration')
 
 let urlInput = document.getElementById('url-input');

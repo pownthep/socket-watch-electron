@@ -1,7 +1,7 @@
 {
     "name": "socket-watch-electron",
     "productName": "socket-watch-electron",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "My Electron application description",
     "main": "src/index.js",
     "scripts": {
@@ -22,20 +22,17 @@
             "packagerConfig": {
                 "icon": "C:/Users/Coding/Documents/socket-watch-electron/src/icon.ico"
             },
-            "publishers": [
-                {
-                    "name": "@electron-forge/publisher-github",
-                    "config": {
-                        "repository": {
-                            "owner": "pownthep",
-                            "name": "socket-watch-electron"
-                        },
-                        "prerelease": true
-                    }
+            "publishers": [{
+                "name": "@electron-forge/publisher-github",
+                "config": {
+                    "repository": {
+                        "owner": "pownthep",
+                        "name": "socket-watch-electron"
+                    },
+                    "prerelease": true
                 }
-            ],
-            "makers": [
-                {
+            }],
+            "makers": [{
                     "name": "@electron-forge/maker-squirrel",
                     "config": {
                         "name": "socket_watch_electron"
