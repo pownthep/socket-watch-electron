@@ -1,7 +1,9 @@
 const PlayerController = require('media-player-controller');
 const { dialog } = require('electron').remote;
 const io = require('socket.io-client');
-const socket = io('https://socket-watch-express.herokuapp.com');
+//const socket = io('https://socket-watch-express.herokuapp.com');
+const socket = io('http://localhost:3000');
+const humanizeDuration = require('humanize-duration')
 
 let urlInput = document.getElementById('url-input');
 let time = document.getElementById('time');
@@ -77,37 +79,37 @@ function selectMedia() {
 }
 
 function load(mediaPath) {
-    player.load(mediaPath);
-    socket.emit('vlc cmd', 'load');
+    //player.load(mediaPath);
+    //socket.emit('vlc cmd', 'load');
 }
 
 function play() {
-    player.play();
+    //player.play();
     socket.emit('vlc cmd', 'play');
 }
 
 function pause() {
-    player.pause();
+    //player.pause();
     socket.emit('vlc cmd', 'pause');
 }
 
 function cycleAudio() {
-    player.cycleAudio();
+    //player.cycleAudio();
     socket.emit('vlc cmd', 'cycleAudio');
 }
 
 function cycleSubs() {
-    player.cycleSubs();
+    //player.cycleSubs();
     socket.emit('vlc cmd', 'cycleSubs');
 }
 
 function cycleFullscreen() {
-    player.cycleFullscreen();
+    //player.cycleFullscreen();
     socket.emit('vlc cmd', 'cycleFullscreen');
 }
 
 function seek(seconds) {
-    player.seek(seconds);
+    //player.seek(seconds);
     socket.emit('seek cmd', seconds);
 }
 
@@ -124,7 +126,7 @@ function launchPlayer() {
 
 player.on('playback', (data) => {
     if (data.name === 'time-pos') {
-        time.innerText = data.value;
+        time.innerText = humanizeDuration(data.value * 1000);
         slider.value = data.value;
     }
     if (data.name === 'duration') slider.max = data.value;
